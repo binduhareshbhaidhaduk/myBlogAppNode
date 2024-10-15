@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="/subtopics" method="POST">
+        <div>
+          <label for="subtopicName">Subtopic Name</label>
+          <input type="text" id="subtopicName" name="subtopicName" required />
+        </div>
+        <div>
+          <label for="subtopicDescription">Subtopic Description</label>
+          <textarea id="subtopicDescription" name="subtopicDescription" required></textarea>
+        </div>
+        <div>
+          <label for="topic">Select Topic</label>
+          <select id="topic" name="topic" required>
+            <% topics.forEach(function(t) { %>
+              <option value="<%= t._id %>"><%= t.name %></option>
+            <% }); %>
+          </select>
+        </div>
+        <button type="submit">Add Subtopic</button>
+      </form>
+      
+      
+      
+</body>
+</html>
