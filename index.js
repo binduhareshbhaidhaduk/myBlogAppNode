@@ -8,8 +8,8 @@ const mongoose = require('./config/db')
 const passport = require('./config/passport')
 const express_session = require('express-session');
 
-const PORT=4000;
-const myPath=path.join(__dirname,'/views')
+const PORT=3000;
+const myPath=path.join(__dirname,'views')
 
 app.set('view engine','ejs');
 app.set('views',myPath);

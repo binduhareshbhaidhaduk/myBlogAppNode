@@ -6,14 +6,11 @@ const Comment  = require('../model/comments/comments')
 
 
 const defaultCon = async (req, res) => {
-    // const user = await userModel.findOne();
-    // console.log(userModel, 'user model')
     if (req.isAuthenticated()) {
         console.log(req.user, '<<<<<user in home')
-        const blogs = await Blog.find().populate('author', 'username'); // Populate author username
-        
-        const comments = await Comment.find().populate('blog')
-
+        const blogs = await Blog.find().populate('author','name');
+        const comments = await Comment.find().populate('blog').populate('users', 'name');
+        console.log('blogs in home',blogs)
         // Passport adds the authenticated user to req.user
         res.render('home', { user : req.user, blogs, comments  });
     } else {
@@ -118,7 +115,7 @@ console.log(req.params,"paramiter")
     const comments = await newComments.save();
     console.log(comments,'comments');
 
-    const savedComments = await Comment.findById(comments).populate({path:'users'}).populate('blog');
+    const savedComments = await Comment.findById(comments).populate('users', 'name').populate('blog');
     console.log(savedComments,'savedComments')
 
     res.redirect('/');

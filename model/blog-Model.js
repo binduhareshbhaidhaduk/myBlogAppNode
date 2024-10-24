@@ -21,6 +21,11 @@ const blogSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Users', 
         required: true
+    },
+    topic: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Topic',
+        required: true
     }
 
 });

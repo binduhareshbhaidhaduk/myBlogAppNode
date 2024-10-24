@@ -1,41 +1,50 @@
 // controllers/blogController.js
 
 const Blog = require('../model/blog-Model');
-const path = require('path');
+const Topic = require('../model/Topic/Topic');
+const subTopic = require('../model/subTopic/subTopicModel');
+
 
 
 // GET Add Blog Form
-exports.getAddBlogForm = (req, res) => {
-    res.render('addBlogs', { user: req.user, error: null });
+const getAddBlogForm = async (req, res) => {
+    try {
+        const topics = await Topic.find();
+        
+        console.log('Rendering addBlog view with topics:', topics);
+        
+        res.render('addBlogs', { user: req.user, topics: topics,  error: null });
+    } catch (error) {
+        console.error('Error fetching topics or subtopics:', error);
+        res.render('addBlogs', { user: req.user, topics: [],  error: 'Failed to load topics or subtopics.' });
+    }
 };
 
 // POST Add Blog
-exports.postAddBlog = async (req, res) => {
+const postAddBlog = async (req, res) => {
     const { title, description } = req.body;
-    let imagePath = null;
-
-    if (req.file) {
-        imagePath = req.file.path; // Path where the image is stored
-    }
+    const imagePath = req.file ? req.file.path : null; // Assuming you're using multer for file uploads
 
     try {
         const newBlog = new Blog({
             title,
             description,
             image: imagePath,
-            author: req.user._id
+            author: req.user._id,
+            topic:req.body.topic,
         });
 
         await newBlog.save();
-        res.redirect('/');
-    } catch (err) {
-        console.error(err);
-        res.render('addBlog', { user: req.user, error: 'Error adding blog. Please try again.' });
+        res.redirect('/'); // Redirect to the home page or wherever you want
+    } catch (error) {
+        console.error('Error saving the blog:', error);
+        res.render('addBlogs', { user: req.user, topics: [], error: 'Failed to save the blog. Please try again.' });
     }
 };
 
+
 // GET My Blogs
-exports.getMyBlogs = async (req, res) => {
+const getMyBlogs = async (req, res) => {
     try {
         const myBlogs = await Blog.find({ author: req.user._id });
         res.render('myBlogs', { user: req.user, blogs: myBlogs });
@@ -46,7 +55,7 @@ exports.getMyBlogs = async (req, res) => {
 };
 
 // GET Edit Blog Form
-exports.getEditBlogForm = async (req, res) => {
+const getEditBlogForm = async (req, res) => {
     const blogId = req.params.id;
 
     try {
@@ -69,7 +78,7 @@ exports.getEditBlogForm = async (req, res) => {
 };
 
 // POST Edit Blog
-exports.postEditBlog = async (req, res) => {
+const postEditBlog = async (req, res) => {
     const blogId = req.params.id;
     const { title, description } = req.body;
     let imagePath = null;
@@ -107,7 +116,7 @@ exports.postEditBlog = async (req, res) => {
 };
 
 // POST Delete Blog
-exports.postDeleteBlog = async (req, res) => {
+const postDeleteBlog = async (req, res) => {
     const blogId = req.params.id;
 
     try {
@@ -129,3 +138,13 @@ exports.postDeleteBlog = async (req, res) => {
         res.status(500).send('Server Error');
     }
 };
+
+
+module.exports ={
+    getAddBlogForm,
+    postAddBlog,
+    getMyBlogs,
+    getEditBlogForm,
+    postEditBlog,
+    postDeleteBlog
+}

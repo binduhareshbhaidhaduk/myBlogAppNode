@@ -43,7 +43,7 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card profile-card">
-                    <img src="<%= user.path || 'https://via.placeholder.com/150' %>" alt="Profile Image" class="profile-img">
+                    <img src="<%= user.path %>" alt="Profile Image" class="profile-img" />
                     <h3 class="card-title"><%= user.name %></h3>
                     <p class="card-text"><strong>Email:</strong> <%= user.email %></p>
                     <div class="d-flex justify-content-between">
@@ -56,6 +56,9 @@
             </div>
         </div>
     </div>
+
+    <!-- footer -->
+    <%- include('./partials/footer.ejs') %>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXd76kIMNv6l3uO9TLt8lAZC2Zr0jYGVvKQKkFbaVYQYecM/8RfFQzKxjMy60ue" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-3ZbNkQ1OZoALAcjfQlR1k/6gEZY25AjTW4BJ5YScIfJp2jymvHV8t4WzYbyIuY9E" crossorigin="anonymous"></script>
