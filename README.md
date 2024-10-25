@@ -45,7 +45,7 @@ Follow these steps to set up the project on your local machine:
 4. **Set up environment variables** by creating a `.env` file in the root of your project and adding the following:
 
     ```env
-    PORT=4000
+    PORT=3000
     ```
 
 5. **Start the MongoDB server**. Make sure MongoDB is installed and running. You can start it using:
